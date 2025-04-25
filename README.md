@@ -20,7 +20,7 @@ Sudden Stratospheric Warming events are significant meteorological phenomena tha
 - Analyse the importance of meteorological features in SSW prediction.
 - Provide explainability for the predictions using SHAP, LIME, and Permutation Importance.
 
-The pipeline processes ERA5 reanalysis data, extracts relevant features, trains ML models, and evaluates their performance across different lead times.
+The pipeline processes ERA5 reanalysis data, extracts relevant features, trains Machine Learning models, and evaluates their performance across different lead times.
 
 ---
 
