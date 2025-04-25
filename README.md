@@ -52,27 +52,32 @@ pip install -r requirements.txt
 **Description**: Processes ERA5 reanalysis data to compute zonal wind *U<sub>10</sub>* and polar temperature *T* anomalies. Outputs a NetCDF file with preprocessed data.  
 **Output**: preprocessed_data.nc
 
-### 2. SSW Index and Labels
+### 2. Exploratory Data Analysis (EDA)
+**Script**: ERA5EDA.py  
+**Description**: Performs Exploratory Data Analysis on the preprocessed ERA5 reanalysis data for *U<sub>10</sub>* and *T*.  
+**Output**: EDA plots (*.png).
+
+### 3. SSW Indexing and Labelling
 **Script**: SSWIndexLabel.py  
 **Description**: Computes a continuous SSW index and binary labels based on predefined thresholds.  
 **Output**: preprocessed_data_with_labels.nc
 
-### 3. Feature Engineering
+### 4. Feature Engineering
 **Script**: FeatureSelection.py  
 **Description**: Adds lagged features for *U<sub>10</sub>* and *T* to capture temporal dependencies. Outputs a dataset with lagged features.  
 **Output**: preprocessed_data_with_lags.nc
 
-### 4. Model Training
+### 5. Model Training
 **Script**: MLModel.py  
 **Description**: Trains ML models (Random Forest, MLP, Gradient Boosting, SVM, and Linear Regression) to predict the SSW index. Evaluates models across multiple lead times.  
 **Output**: Trained models (*.pkl) and MAE results (mae_results.npy).
 
-### 5. Model Evaluation
+### 6. Model Evaluation
 **Script**: ModelEvaluation.py  
 **Description**: Evaluates model performance using scatter plots, time-series plots, and residual plots. Compares Random Forest and SVM using statistical tests.  
 **Output**: Evaluation plots (*.png).
 
-### 6. Explainability Analysis
+### 7. Explainability Analysis
 **Script**: XAI.py  
 **Description**: Uses SHAP, LIME, and Permutation Importance to explain model predictions and identify key features.  
 **Output**: Explanation plots (*.png).
