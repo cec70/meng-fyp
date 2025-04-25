@@ -1,7 +1,7 @@
 # MEng Final Year Project
 ### Machine Learning-based Prediction of Sudden Stratospheric Warmings
 
-This repository contains a comprehensive pipeline for predicting and analyzing Sudden Stratospheric Warming (SSW) events using machine learning models. The pipeline includes data preprocessing, feature engineering, model training, evaluation, and explainability analysis.
+This repository contains a comprehensive pipeline for predicting and analysing Sudden Stratospheric Warming (SSW) events using Machine Learning (ML) models. The pipeline includes data preprocessing, feature engineering, model training, evaluation, and explainability analysis.
 
 ---
 
@@ -15,12 +15,12 @@ This repository contains a comprehensive pipeline for predicting and analyzing S
 ---
 
 ## **Overview**
-Sudden Stratospheric Warming (SSW) events are significant meteorological phenomena that can disrupt weather patterns. This project aims to:
-- Predict SSW events using machine learning models.
-- Analyze the importance of meteorological features in SSW prediction.
+Sudden Stratospheric Warming events are significant meteorological phenomena that can disrupt weather patterns. This project aims to:
+- Predict SSW events using ML models.
+- Analyse the importance of meteorological features in SSW prediction.
 - Provide explainability for the predictions using SHAP, LIME, and Permutation Importance.
 
-The pipeline processes ERA5 reanalysis data, extracts relevant features, trains machine learning models, and evaluates their performance across different lead times.
+The pipeline processes ERA5 reanalysis data, extracts relevant features, trains ML models, and evaluates their performance across different lead times.
 
 ---
 
@@ -64,7 +64,7 @@ pip install -r requirements.txt
 
 ### 4. Model Training
 **Script**: MLModel.py  
-**Description**: Trains machine learning models (Random Forest, MLP, Gradient Boosting, SVM, and Linear Regression) to predict the SSW index. Evaluates models across multiple lead times.  
+**Description**: Trains ML models (Random Forest, MLP, Gradient Boosting, SVM, and Linear Regression) to predict the SSW index. Evaluates models across multiple lead times.  
 **Output**: Trained models (*.pkl) and MAE results (mae_results.npy).
 
 ### 5. Model Evaluation
