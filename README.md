@@ -31,7 +31,7 @@ The project requires the following Python libraries:
 - Xarray (v2023.9.0)
 - Matplotlib (v3.8.1)
 - Seaborn (v0.12.2)
-- scikit-learn (v1.3.1)
+- Scikit-learn (v1.3.1)
 - Lime (v0.2.0.1)
 - Shap (v0.42.1)
 - Joblib (v1.3.2)
