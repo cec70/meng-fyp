@@ -54,7 +54,7 @@ pip install -r requirements.txt
 
 ### 2. Exploratory Data Analysis (EDA)
 **Script**: ERA5EDA.py  
-**Description**: Performs Exploratory Data Analysis on the preprocessed ERA5 reanalysis data for *U<sub>10</sub>* and *T*.  
+**Description**: Performs EDA on the preprocessed ERA5 reanalysis data for *U<sub>10</sub>* and *T*.  
 **Output**: EDA plots (*.png).
 
 ### 3. SSW Indexing and Labelling
