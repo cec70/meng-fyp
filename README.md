@@ -40,7 +40,6 @@ The project requires the following Python libraries:
 
 Install the dependencies using:  
 ```
-bash
 pip install -r requirements.txt
 ```
 
