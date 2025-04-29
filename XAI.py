@@ -3,7 +3,6 @@ import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
 import shap
-from PIL import Image
 from sklearn.inspection import permutation_importance
 from lime import lime_tabular 
 
@@ -56,9 +55,10 @@ def shap_analysis(models, model_names, X_test_sample, features, save_path=None, 
     print("Running SHAP analysis for all models...")
     
     shap_values_dict = {}
-    summary_images = []
     
     for idx, (model, model_name) in enumerate(zip(models, model_names)):
+        print(f"Processing SHAP analysis for {model_name}...")
+        
         # Handle Pipeline models
         if hasattr(model, 'named_steps'):
             # Extract the final predictor from the pipeline
@@ -79,39 +79,23 @@ def shap_analysis(models, model_names, X_test_sample, features, save_path=None, 
         # Store SHAP values in the dictionary
         shap_values_dict[model_name] = shap_values
         
-        # Generate and save individual SHAP summary plot
+        # Generate SHAP summary plot with increased font size
         plt.figure(figsize=(10, 4))
         shap.summary_plot(shap_values, X_test_sample, feature_names=features, show=False)
+        
+        # Plot formatting
+        plt.title(f"SHAP Summary Plot ({model_name}, Lead Time = {lead_time} days)", fontsize=16)
+        plt.xlabel('SHAP Value (Impact on Model Output)', fontsize=14)
+        plt.ylabel('Feature', fontsize=14) 
+        plt.xticks(fontsize=12)
+        plt.yticks(fontsize=12)
 
-        plt.title(f"SHAP Summary Plot ({model_name}, Lead Time = {lead_time} days)")
-
-        # Save the plot to a temporary file
-        plt.savefig(f"temp_summary_{idx}.png", bbox_inches='tight')
-        summary_images.append(f"temp_summary_{idx}.png")
+        # Save the plot for the current model
+        if save_path:
+            plt.savefig(f"{save_path}_{model_name.lower().replace(' ', '_')}_summary.png", bbox_inches='tight')
         plt.close()
     
-    # Combine all individual summary plots into one image
-    images = [Image.open(img) for img in summary_images]
-    widths, heights = zip(*(i.size for i in images))
-    total_height = sum(heights)
-    max_width = max(widths)
-    
-    # Create a blank image with the combined dimensions
-    combined_image = Image.new('RGB', (max_width, total_height))
-    y_offset = 0
-    for img in images:
-        combined_image.paste(img, (0, y_offset))
-        y_offset += img.size[1]
-    
-    # Save the combined image
-    if save_path:
-        combined_image.save(f"{save_path}_all_summary.png")
-    
-    # Clean up temporary files
-    import os
-    for img_file in summary_images:
-        os.remove(img_file)
-    
+    print("SHAP analysis completed for all models.")
     return shap_values_dict
 
 ### 2. LIME Analysis ###
@@ -156,13 +140,14 @@ def lime_analysis(model, model_name, X_test_sample, features, num_samples=5, sav
 
         # Set manually formatted labels for the y-axis
         ax = fig.axes[0]
-        ax.set_yticklabels(formatted_labels[::-1], fontsize=10)
+        ax.set_yticklabels(formatted_labels[::-1], fontsize=13)
         
-        # Adjust layout
-        plt.title(f"LIME Explanation ({model_name}, Instance {i+1}, Lead Time = {lead_time} days)")
+        # Plot formatting
+        plt.title(f"LIME Explanation ({model_name}, Instance {i+1}, Lead Time = {lead_time} days)", fontsize=16)
         fig.set_size_inches(9, 6)
         fig.tight_layout(pad=2.0)
-        plt.xlabel('Feature Influence')
+        plt.xlabel('Feature Influence', fontsize=15)
+        plt.xticks(fontsize=13)
         
         # Save the plot
         if save_path:
@@ -184,13 +169,17 @@ def permutation_importance_analysis(model, model_name, X_test_sample, y_test_sam
     # Generate bar plot
     plt.figure(figsize=(10, 6))
     sns.barplot(x=perm_importance.values, y=perm_importance.index, palette='mako')
-    plt.xlabel('Importance (MAE Increase)')  # Label for x-axis
-    plt.ylabel('Feature')  # Label for y-axis
-    plt.title(f"Permutation Importance ({model_name}, Lead Time = {lead_time} days)")  # Plot title
+
+    # Plot formatting
+    plt.title(f"Permutation Importance ({model_name}, Lead Time = {lead_time} days)", fontsize=16)
+    plt.xlabel('Importance (MAE Increase)', fontsize=14)
+    plt.ylabel('Feature', fontsize=14)
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
     
     # Save the plot
     if save_path:
-        plt.savefig(save_path)
+        plt.savefig(save_path, bbox_inches='tight')
     plt.show()
 
     # Return the permutation importance values
@@ -199,18 +188,16 @@ def permutation_importance_analysis(model, model_name, X_test_sample, y_test_sam
 # Run XAI analyses for all models
 if __name__ == "__main__":
     # SHAP Analysis
-    shap_analysis(models, model_names, X_test_sample, features, save_path=f"shap_plots", lead_time=7)
+    shap_analysis(models, model_names, X_test_sample, features, save_path=f"Plots/shap", lead_time=7)
 
     # LIME Analysis (only for Random Forest and SVM)
-    lime_analysis(rf_best, 'Random Forest', X_test_sample, y_test_sample, features, num_samples=2, 
-                  save_path='Plots/lime_rf')
-    lime_analysis(svm_best, 'SVM', X_test_sample, y_test_sample, features, num_samples=2, 
-                  save_path='Plots/lime_svm')
+    lime_analysis(rf_best, 'Random Forest', X_test_sample, features, num_samples=2, save_path='Plots/lime_rf')
+    lime_analysis(svm_best, 'SVM', X_test_sample, features, num_samples=2, save_path='Plots/lime_svm')
 
     # Permutation Importance
     perm_importances = {}
-    for model, name in zip(models, model_names):
-        perm_importances[name] = permutation_importance_analysis(model, name, X_test_sample, y_test_sample, features, 
-                                                                 save_path=f"Plots/perm_{name.lower().replace(' ', '_')}.png")
+    for model, model_name in zip(models, model_names):
+        perm_importances[model_name] = permutation_importance_analysis(model, model_name, X_test_sample, y_test_sample, features, 
+                                                                       save_path=f'Plots/perm_{model_name.lower().replace(" ", "_")}')
 
     print("XAI analysis completed.")
