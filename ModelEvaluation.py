@@ -72,12 +72,12 @@ def time_series_forecast_vs_actual(X_test, y_test, models, model_names, lead_tim
     plt.figure(figsize=(10, 6))
     
     # Plot the actual SSW index values
-    plt.plot(y_test_shifted.index, y_test_shifted, label='Actual', color='black', lw=2)
+    plt.plot(y_test_shifted.index, y_test_shifted, label='Actual', color='black', lw=1.75)
     
     # Plot the predicted SSW index values for each model
     for model, name in zip(models, model_names):
         y_pred = model.predict(X_test_shifted)
-        plt.plot(y_test_shifted.index, y_pred, label=name, alpha=0.7)
+        plt.plot(y_test_shifted.index, y_pred, label=name, alpha=0.7, lw=1)
 
     # Mark known SSW event dates on the plot
     if ssw_event_dates:
