@@ -204,7 +204,7 @@ print("SVM MAE by Lead Time:", svm_mae)
 
 ### 5. Linear Regression Model (using Ridge for regularization) ###
 
-# Define the parameter grid for hyperparameter tuning for Ridge regression
+# Define the parameter grid for hyperparameter tuning for Linear Regression
 lr_param_grid = {
     'alpha': [0.01, 0.1, 1.0],
     'fit_intercept': [True, False]
@@ -214,16 +214,16 @@ lr_param_grid = {
 lr_model = GridSearchCV(Ridge(), lr_param_grid, cv=tscv, 
                         scoring='neg_mean_absolute_error', n_jobs=-1)
 
-# Fit the Ridge regression model on the training data
+# Fit the Linear Regression model on the training data
 lr_model.fit(X_train, y_train)
 
 # Retrieve the best estimator from the grid search
 lr_best = lr_model.best_estimator_
-print("Best Ridge Parameters:", lr_model.best_params_)
+print("Best Linear Regression Parameters:", lr_model.best_params_)
 
-# Evaluate the Ridge regression model's performance across lead times
+# Evaluate the Linear Regression model's performance across lead times
 lr_mae = evaluate_model(lr_best, X_test, y_test)
-print("Ridge MAE by Lead Time:", lr_mae)
+print("Linear Regression MAE by Lead Time:", lr_mae)
 
 # Set plotting style
 plt.style.use('default')
