@@ -51,8 +51,6 @@ y_test_sample = y_test_shifted.loc[X_test_sample.index]
 ### 1. SHAP Analysis ###
 def shap_analysis(models, model_names, X_test_sample, features, save_path=None, lead_time=None):
     """Perform SHAP analysis for all models and generate summary plots."""
-
-    print("Running SHAP analysis for all models...")
     
     shap_values_dict = {}
     
